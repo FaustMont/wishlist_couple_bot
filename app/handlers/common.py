@@ -7,7 +7,8 @@ from dishka.integrations.aiogram import inject, FromDishka
 from app.texts import texts
 from app.states import ProductParsingState
 from app.utils import parsing
-from app.kb import product_enter_kb
+from app.kb import product_enter_kb, common_kb
+from app.dao.enums import ProductAddAttrs
 
 
 logger = logging.getLogger(__name__)
@@ -34,9 +35,17 @@ async def process_product_url(message: Message, state: ProductParsingState):
         reply_markup=product_enter_kb.enter_product_menu_kb(),
     )
 
-@router.callback_query(ProductParsingState.start_adding, F.data == "product_name")
+@router.callback_query(ProductParsingState.start_adding, F.data.in_(ProductAddAttrs))
 async def process_product_name(callback: CallbackQuery, state: ProductParsingState):
-    await callback.message.answer(texts.PRODUCT_NAME_ENTER)
+    match callback.data:
+        case ProductAddAttrs.NAME.value:
+            await callback.message.answer(texts.PRODUCT_NAME_ENTER)
+        case ProductAddAttrs.PRICE.value:
+            await callback.message.answer(texts.PRODUCT_PRICE_ENTER)
+        case ProductAddAttrs.PRIORITY.value:
+            await callback.message.answer(texts.PRODUCT_PRIORITY_ENTER)
+        case _:
+            await callback.answer(texts.INVALID_DATA)
 
     
     
