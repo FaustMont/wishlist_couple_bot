@@ -2,17 +2,27 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Установка системных зависимостей (если понадобятся)
+# Установка git (на случай, если какие-то пакеты его требуют)
 RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
-# Копируем файлы проекта
+# Копируем файлы
 COPY . .
 
-# Устанавливаем зависимости.
-# ВАЖНО: В pyproject.toml не указан драйвер базы данных. 
-# Мы добавляем asyncpg принудительно для работы с PostgreSQL.
-RUN pip install --no-cache-dir . asyncpg
+# ВАЖНОЕ ИЗМЕНЕНИЕ:
+# Вместо "pip install ." мы перечисляем библиотеки вручную.
+# Это обходит ошибку сборки вашего проекта.
+# Мы добавили asyncpg, а asyncio убрали (он встроен в Python 3.12).
+RUN pip install --no-cache-dir \
+    aiogram \
+    alembic \
+    dishka \
+    dynaconf \
+    pydantic \
+    pytest-playwright \
+    redis \
+    sqlalchemy \
+    asyncpg
 
-# Команда запуска: сначала накатываем миграции, потом запускаем бота
+# Запуск
 CMD ["sh", "-c", "alembic upgrade head && python main.py"]
