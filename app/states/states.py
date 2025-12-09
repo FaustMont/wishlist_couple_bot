@@ -2,9 +2,9 @@ from aiogram.fsm.state import State, StatesGroup
 
 
 class AddProductState(StatesGroup):
-    name = State()
-    price = State()
-    priority = State()
+    start_adding = State()
+    add_attribute = State()
+    confirm_adding = State()
 
 class EditProductState(StatesGroup):
     choose_field = State()

@@ -1,15 +1,27 @@
+from aiogram.fsm.context import FSMContext
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton, InlineKeyboardMarkup
+from app.dao.enums import ProductAddAttrs, ProductAppend
+from app.kb import buttons
 
-from app.dao.enums import ProductAddAttrs
-
-def enter_product_menu_kb() -> InlineKeyboardMarkup:
+def enter_product_menu_kb(data: dict = {}) -> InlineKeyboardMarkup:
     kb = InlineKeyboardBuilder()
     kb.row(
-        InlineKeyboardButton(text="❌ Название", callback_data=ProductAddAttrs.NAME.value),
-        InlineKeyboardButton(text="❌ Цена", callback_data=ProductAddAttrs.PRICE.value),
-        InlineKeyboardButton(text="❌ Приоритет", callback_data=ProductAddAttrs.PRIORITY.value),
+        InlineKeyboardButton(
+            text=f"{'✅' if ProductAddAttrs.NAME.value in data else '❌'} {buttons.BUTTON_NAME}", 
+            callback_data=ProductAddAttrs.NAME.value),
+        InlineKeyboardButton(
+            text=f"{'✅' if ProductAddAttrs.PRICE.value in data else '❌'} {buttons.BUTTON_PRICE}", 
+            callback_data=ProductAddAttrs.PRICE.value),
+        InlineKeyboardButton(
+            text=f"{'✅' if ProductAddAttrs.PRIORITY.value in data else '❌'} {buttons.BUTTON_PRIORITY}", 
+            callback_data=ProductAddAttrs.PRIORITY.value),
     )
     kb.row(
-        InlineKeyboardButton(text="🔙 Отмена", callback_data="product_cancel")
+        InlineKeyboardButton(
+            text=buttons.BUTTON_CONFIRM,
+            callback_data=ProductAppend.CONFIRM.value),
+        InlineKeyboardButton(
+            text=buttons.BUTTON_CANCEL, 
+            callback_data=ProductAppend.CANCEL.value)
     )
     return kb.as_markup()

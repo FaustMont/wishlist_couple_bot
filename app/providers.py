@@ -25,7 +25,7 @@ class DataBaseProvider(Provider):
 class RedisProvider(Provider):
 
     @provide(scope=Scope.APP)
-    async def provide_redis(self) -> redis.Redis:
+    async def provide_redis(self) -> AsyncIterable[redis.Redis]:
         redis_client = redis.from_url(
             settings.default.redis_url,
             decode_responses=True,

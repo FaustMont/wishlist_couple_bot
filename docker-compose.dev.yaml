@@ -1,0 +1,11 @@
+services:
+  redis:
+    image: redis:7-alpine
+    command: --port 6377
+    ports:
+      - "6377:6377"
+    volumes:
+      - redis_data:/data
+  
+volumes:
+  redis_data:

@@ -1,0 +1,5 @@
+BUTTON_NAME = "Название"
+BUTTON_PRICE = "Цена"
+BUTTON_PRIORITY = "Приоритет"
+BUTTON_CONFIRM = "🆗 Подтвердить"
+BUTTON_CANCEL = "🔙 Отмена"

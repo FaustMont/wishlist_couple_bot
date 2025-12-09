@@ -1,6 +1,6 @@
 [default]
 admin_ids=[661813243, 1172408548]
-redis_url="redis://redis:6379/0"
+redis_url="redis://localhost:6377/0"
 
 [development]
 debug="TRUE"

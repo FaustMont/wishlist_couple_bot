@@ -25,3 +25,7 @@ class ProductAddAttrs(Enum):
     NAME = "product_name"
     PRICE = "product_price"
     PRIORITY = "product_priority"
+
+class ProductAppend(Enum):
+    CONFIRM = "product_confirm"
+    CANCEL = "product_cancel"

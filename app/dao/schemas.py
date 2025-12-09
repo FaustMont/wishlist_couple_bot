@@ -29,7 +29,7 @@ class ProductCreateSchema(BaseModel):
     url: str
     marketplace: Marketplace
     whishlist_status: WishlistStatus = WishlistStatus.ACTIVE
-    priority: Priority = None
+    priority: Priority
     description: Optional[str] = None
     image_url: Optional[str] = None
 
